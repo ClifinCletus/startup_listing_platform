@@ -6,7 +6,7 @@ const Navbar = async () => {
   const session = await auth(); //provides all the details of the user and for login,logout
 
   return (
-    <header className=" px-5 py-3 bg-white shadow-sm font-work-sans">
+    <header className=" px-5 py-3 bg-white shadow-md font-work-sans">
       <nav className="flex justify-between items-center">
         <Link href="/">
           <Image src="/logosmall.png" alt="logo" width={144} height={50} />

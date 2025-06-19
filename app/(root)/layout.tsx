@@ -1,8 +1,8 @@
-import '../globals.css'
-import React from "react";
-import Navbar from "../components/Navbar";
+import type {Metadata} from 'next'
+import Navbar from '../../components/Navbar'
 
-export const metadata = {
+
+export const metadata:Metadata = {
   title: "Startup Listing Platform",
   description: "A platform to list and discover startups",
 };
@@ -14,8 +14,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <main className="font-work-sans">
+      <body >
+        <main >
           <Navbar />
           {children}
         </main>
