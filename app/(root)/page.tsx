@@ -12,7 +12,9 @@ export default async function Home({
   //access the query set as from the Form automatically to the current url,
   const query = (await searchParams).query;
 
-  const {data: posts} = await sanityFetch ({query: STARTUPS_QUERY})
+  //here we have taken the query and passing it to the queries.ts, then if the search(params) contain anything, it would fetch data as per that(we are adding this logic to the query)//now like doing a filter
+  const params = {search: query || null}
+  const {data: posts} = await sanityFetch ({query: STARTUPS_QUERY , params})
 
   
 
