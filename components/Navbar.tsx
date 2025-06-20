@@ -24,7 +24,7 @@ const Navbar = async () => {
              
             {/*here and in the signout, we added a form because , previous we had these added in button onClick={}, but onClick is particularly a client side prop, hence converted it properly to server side and added server actions here so works perfect. */}
             <form 
-              action={async () => {
+              action={async () => { 
                 "use server";
                 await signOut({ redirectTo: "/" });
               }}
