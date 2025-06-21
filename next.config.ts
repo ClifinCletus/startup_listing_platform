@@ -3,22 +3,22 @@ const nextConfig = {
   experimental: {
     turbo: {
       rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
+        "*.svg": {
+          loaders: ["@svgr/webpack"],
+          as: "*.js",
         },
       },
     },
   },
-  images:{
+  images: {
     dangerouslyAllowSVG: true,
     remotePatterns: [
       {
-        protocol:'https',
-        hostname:'*',
-      }
-    ]
-  }
-}
+        protocol: "https",
+        hostname: "*",
+      },
+    ],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
