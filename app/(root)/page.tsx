@@ -3,6 +3,7 @@ import StartupCard from "@/components/StartupCard";
 import { STARTUPS_QUERY } from "@/sanity/lib/queries";
 import { StartupTypeCard } from "@/components/StartupCard";
 import { sanityFetch,SanityLive } from "@/sanity/lib/live";
+import { auth } from "@/auth";
 
 export default async function Home({
   searchParams,
@@ -14,6 +15,12 @@ export default async function Home({
 
   //here we have taken the query and passing it to the queries.ts, then if the search(params) contain anything, it would fetch data as per that(we are adding this logic to the query)//now like doing a filter
   const params = {search: query || null}
+
+  //
+  const session = await auth()
+
+  console.log(session?.id)
+
   const {data: posts} = await sanityFetch ({query: STARTUPS_QUERY , params})
 
   
