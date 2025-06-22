@@ -14,7 +14,7 @@ const config = {
             clientSecret: process.env.AUTH_GITHUB_SECRET || "",
         }),
     ],
-    callbacks: {  //object for each operations in the authentication
+    callbacks: {  //object for each operations in the authentication executed aftersuccessful authentication
         async signIn({ user, profile }: {  //from this onwards till end(end of callback, is related to signin the user, then set the id with jwt and assigning them able to create startups and link their name with it)
             user: { name?: string; email?: string; image?: string }, 
             profile?: { id?: string; login?: string; bio?: string } 
@@ -23,7 +23,7 @@ const config = {
             const { id, login, bio } = profile || {};
 
             const existingUser = await client.withConfig({useCdn:false}).fetch(AUTHOR_BY_GITHUB_ID_QUERY, { id });
-
+ 
             if (!existingUser) {
                 await writeClient.create({
                     _type: "author",
@@ -38,16 +38,16 @@ const config = {
             return true; //to continue the signin process
         },
        async jwt({ token, account, profile }) {
-        if (account && profile) {
-            const id = profile.id;
+        if (account && profile) { //if account and profile exists, get the id of the author from sanity and add it to jwt
+            const id = profile.id; //profile id is the id of the github profile(made during authentication)
             const user = await client.withConfig({useCdn:false}).fetch(AUTHOR_BY_GITHUB_ID_QUERY, { id });
-            if (user && user._id) {
+            if (user && user._id) { //if user with that od exists, then add the if to the toke ile id
                 token.id = user?._id;
             }
         }
         return token; //to connect the github user with a sanity author to create startups
        },
-       async session({session,token}){
+       async session({session,token}){ //we create a session and assign the id to the session, hence in any page, we can access the id of the sanity author via this session (done in page.tsx)
         Object.assign(session,{id:token.id});
         return session;
        }
