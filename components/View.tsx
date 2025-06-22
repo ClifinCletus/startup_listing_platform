@@ -14,17 +14,18 @@ const View = async ({id}: {id:string}) => {
     })
     
   
-    return (
-   <div className='view-container'>
-     <div className="absolute -top-2 -right-2">
-        {/* the small rose blinking round component to show it is active */}
-        <Ping/>
-     </div>
-
-     <p className="view-text">
-        <span className="font-black">{totalViews > 1 ? `${totalViews} views`: `${totalViews} view`}</span>
-     </p>
-   </div>
+  return (
+    totalViews === 0 ? "" : (
+      <div className='view-container'>
+        <div className="absolute -top-2 -right-2">
+          {/* the small rose blinking round component to show it is active */}
+          <Ping/>
+        </div>
+        <p className="view-text">
+          <span className="font-black">{totalViews > 1 ? `${totalViews} views`: `${totalViews} view`}</span>
+        </p>
+      </div>
+    )
   )
 }
 

@@ -2,6 +2,7 @@ import type {Metadata} from 'next' //for adding the type of metadata
 //import localFont from 'next/font/local';
 import 'easymde/dist/easymde.min.css'
 import './globals.css'
+import { Toaster } from '@/components/ui/toaster';
 
 
 // const workSans = localFont({
@@ -64,6 +65,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
           {children}
+          <Toaster/> {/*for showing the error message in the create form */}
       </body>
     </html>
   );

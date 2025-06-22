@@ -2,11 +2,13 @@ import Link from "next/link";
 import Image from "next/image"; //nextjs image tag
 import { auth, signIn, signOut } from "@/auth";
 
+
+///////////////////////////////
 const Navbar = async () => {
   const session = await auth(); //provides all the details of the user and for login,logout
 
   return (
-    <header className=" px-5 py-3 bg-white shadow-md">
+    <header className=" px-5 py-3 bg-white shadow-md" suppressHydrationWarning>
       <nav className="flex justify-between items-center">
         <Link href="/">
           <Image src="/logosmall.png" alt="logo" width={144} height={50} />
