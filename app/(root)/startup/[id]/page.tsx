@@ -1,7 +1,7 @@
 //startup/2 etc
 import { formatDate } from '@/lib/utils';
 import { client } from '@/sanity/lib/client';
-import { STARTUPS_BY_ID_QUERY } from '@/sanity/lib/queries';
+import { PLAYLIST_BY_SLUG_QUERY, STARTUPS_BY_ID_QUERY } from '@/sanity/lib/queries';
 import Link  from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -9,6 +9,7 @@ import React, { Suspense } from 'react'
 import markdownit from "markdown-it"
 import {Skeleton} from '@/components/ui/skeleton'
 import View from '@/components/View';
+import StartupCard, { StartupTypeCard } from '@/components/StartupCard';
 
 //export const experimental_ppr = true;
 const md = markdownit();
@@ -16,8 +17,12 @@ const md = markdownit();
 const page = async ({params} :{params: Promise<{id: string}>}) => {
 
     const id = (await params).id
-
-    const post = await client.fetch(STARTUPS_BY_ID_QUERY, { id })
+    
+    //parallel fetching of pos and playlist
+    const [post, {select: editorPosts}] = await Promise.all([
+         client.fetch(STARTUPS_BY_ID_QUERY, { id }),
+          client.fetch(PLAYLIST_BY_SLUG_QUERY,{slug:"editor-picks"})
+    ])
 
     if(!post) return notFound() //inbuilt notfound from nextjs
     
@@ -63,6 +68,18 @@ const page = async ({params} :{params: Promise<{id: string}>}) => {
      <hr className='divider'/>
 
      {/* TODO: EDITOR SELECTED STARTUpS */}
+
+     {editorPosts?.length > 0 && (
+      <div className="max-w-4xl mx-auto">
+        <p className='text-30-semibold'>Editor Picks</p>
+
+        <ul className="mt-7 card_grid-sm">
+          {editorPosts.map((post: StartupTypeCard, i:number) =>(
+            <StartupCard key={i} post={post}/>
+          ))}
+        </ul>
+      </div>
+     )}
        
        {/*dynamic content on the page, skeleton is a shadcn component */}
        <Suspense fallback={<Skeleton className='view_skeleton'/>}>

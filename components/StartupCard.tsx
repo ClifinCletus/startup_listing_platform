@@ -1,9 +1,10 @@
-import {formatDate} from '@/lib/utils'
+import {cn, formatDate} from '@/lib/utils'
 import { EyeIcon } from 'lucide-react'
 import {Button} from '@/components/ui/button'
 import Link from 'next/link'
 import Image from 'next/image'
 import {Startup, Author} from '@/sanity/types'
+import { Skeleton } from './ui/skeleton'
 
 
 //this Omit is a ts fn, for creating type here, we no need to include the author in the Startup as there is the reference etc
@@ -18,10 +19,10 @@ const StartupCard = ({post}: {post: StartupTypeCard}) => {
             <p className="startup_card_date">
               {formatDate(_createdAt)} {/*here used the fn to fomrat the string type date into proper structured date */}
             </p>
-            <div className="flec gap-1.5">
+            <div className="flex gap-1.5">
                 {/*to show views */}
               <EyeIcon className="size-6 text-primary"/>
-              <span className="text-16-mediums">{views}</span>
+              <span className="text-16-medium">{views}</span>
             </div>
         </div>
 
@@ -44,7 +45,7 @@ const StartupCard = ({post}: {post: StartupTypeCard}) => {
 
            {/*profile image */}
             <Link href={`/user/${author?._id}`}>
-               <Image src='https://placehold.co/600x400' alt='plaaceholder' width={48} height={48} className='rounded-full'/>
+               <Image src={author?.image || "/default-profile.png"} alt={author?.name || "Author profile"} width={48} height={48} className='rounded-full'/>
             </Link>
            </div>
                 
@@ -70,11 +71,19 @@ const StartupCard = ({post}: {post: StartupTypeCard}) => {
               </Link>
             </Button>
         </div>
-
-
-
     </li>
   )
 }
+
+//skeleton for showing while the divs are loading
+export const StartupCardSkeleton = () =>(
+  <>
+  {[0,1,2,3,4].map((index:number)=>(
+    <li key={cn("skeleton",index)}>
+      <Skeleton className='startup-card_skeleton'/>
+    </li>
+  ))}
+  </>
+)
 
 export default StartupCard

@@ -17,11 +17,14 @@ export default async function Home({
   const params = {search: query || null}
 
   //
-  const session = await auth()
 
-  console.log(session?.id)
+  const [session,{data: posts}] = await Promise.all([
+   await auth(),
+   await sanityFetch ({query: STARTUPS_QUERY , params})
+  ])
+   
 
-  const {data: posts} = await sanityFetch ({query: STARTUPS_QUERY , params})
+  console.log(session?.id) 
 
   
 
